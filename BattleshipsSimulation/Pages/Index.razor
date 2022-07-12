@@ -59,7 +59,17 @@
     <div class="row">
         <button class="btn btn-lg btn-primary" @onclick="@StartSimulation">Start</button>
     </div>
-</div>>
+    <div class="row">
+        @if (Player1.Lives == 0)
+        {
+            <h3>Player2 Win this battle!</h3>
+        }
+        @if (Player2.Lives == 0)
+        {
+            <h3>Player1 Win this battle!</h3>
+        }
+    </div>
+</div>
 
 
 
@@ -98,13 +108,22 @@
                 await Shot(Player2);
                 Player2.IsMyTurn = true;
                 Player1.IsMyTurn = false;
+                await Wait();
+                StateHasChanged();
             }
+
+
+
             if (Player2.IsMyTurn == true)
             {
                 await Shot(Player1);
                 Player1.IsMyTurn = true;
                 Player2.IsMyTurn = false;
+                await Wait();
+                StateHasChanged();
             }
+
+
         }
 
     }
@@ -121,4 +140,8 @@
 
     }
 
+    async Task Wait()
+    {
+        await Task.Delay(1000);
+    }
 }
