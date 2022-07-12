@@ -76,14 +76,18 @@ a, .btn-link {
     text-align: center !important;
 }
 
-.red {
+.hit {
     background-color: red !important;
+    color: snow !important;
+    font-weight: bold;
 }
 
-.black {
+.miss {
     background-color: black !important;
+    color: snow !important;
+    font-weight: bold;
 }
 
 .blue {
-    background-color: blue !important;
+    background-color: aqua !important;
 }

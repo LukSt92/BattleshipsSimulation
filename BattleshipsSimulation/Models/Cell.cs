@@ -7,6 +7,7 @@
         public int Y { get; set; }
         public bool IsShip { get; set; }
         public bool IsHit { get; set; }
-        public bool IsEmpty { get; set; } //only for placement tests
+        public bool IsEmpty { get; set; }
+        public bool IsMiss { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace BattleshipsSimulation.GameMechanics
             {
                 for (int j = 1; j <= 10; j++)
                 {
-                    player.Cells.Add(new Cell() { Id = Guid.NewGuid().ToString(), X = i, Y = j });
+                    player.Cells.Add(new Cell() { Id = Guid.NewGuid().ToString(), X = i, Y = j, IsEmpty = true });
                 }
             }
             return Task.FromResult(true);
@@ -85,7 +85,7 @@ namespace BattleshipsSimulation.GameMechanics
             }
 
             if (!selectedcell.IsShip)
-                player.Cells.Find(x => x.Id == selectedcell.Id).IsEmpty = false;
+                player.Cells.Find(x => x.Id == selectedcell.Id).IsMiss = true;
 
             return;
         }

@@ -10,15 +10,15 @@
                 <tr>
                     @for (int j = 1; j <= 10; j++)
                     {
-                        <td class="ship-tile @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true ? "black" : "blue")">
+                        <td class="ship-tile @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true ? "blue" : "black")">
                             <div style="width:35px;height:35px;">
                                 @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsHit)
                                 {
-                                    <div style="background-color:red !important">Hit</div>
+                                    <div class="hit">HIT</div>
                                 }
-                                else
+                                @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsMiss)
                                 {
-                                    <div style="background-color:black !important"></div>
+                                    <div class="miss">MISS</div>
                                 }
 
                                 </div>
@@ -42,11 +42,11 @@
                             <div style="width:35px;height:35px;">
                                 @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsHit)
                                 {
-                                    <div>Hit</div>
+                                    <div class="hit">HIT</div>
                                 }
-                                else
+                                @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsMiss)
                                 {
-                                    <div></div>
+                                    <div class="miss">MISS</div>
                                 }
                                 </div>
                         </td>
@@ -113,7 +113,7 @@
     {
         var rnd = new Random();
 
-        var availablecells = player.Cells.Where(x => !x.IsHit && !x.IsEmpty).ToList();
+        var availablecells = player.Cells.Where(x => !x.IsHit && !x.IsMiss).ToList();
 
         int indexcount = availablecells.Count();
 
