@@ -85,7 +85,7 @@ namespace BattleshipsSimulation.GameMechanics
             }
 
             if (!selectedcell.IsShip)
-                player.Cells.Find(x => x.Id == selectedcell.Id).IsEmpty = true;
+                player.Cells.Find(x => x.Id == selectedcell.Id).IsEmpty = false;
 
             return;
         }

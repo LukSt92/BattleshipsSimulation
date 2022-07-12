@@ -10,8 +10,18 @@
                 <tr>
                     @for (int j = 1; j <= 10; j++)
                     {
-                        <td class="ship-tile @(Player1.Cells.First(x => x.X == i && x.Y == j).IsHit == false ? "blue" : "red")">
-                            <div style="width:35px;height:35px;">@Player1.Cells.First(x => x.X == i && x.Y == j).IsShip</div>
+                        <td class="ship-tile @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true ? "black" : "blue")">
+                            <div style="width:35px;height:35px;">
+                                @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsHit)
+                                {
+                                    <div style="background-color:red !important">Hit</div>
+                                }
+                                else
+                                {
+                                    <div style="background-color:black !important"></div>
+                                }
+
+                                </div>
                         </td>
                     }
                 </tr>
@@ -28,8 +38,17 @@
                 <tr>
                     @for (int j = 1; j <= 10; j++)
                     {
-                        <td class="ship-tile @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty == false ? "blue" : "black")">
-                            <div style="width:35px;height:35px;">@Player2.Cells.First(x => x.X == i && x.Y == j).IsShip</div>
+                        <td class="ship-tile @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true ? "blue" : "black")">
+                            <div style="width:35px;height:35px;">
+                                @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsHit)
+                                {
+                                    <div>Hit</div>
+                                }
+                                else
+                                {
+                                    <div></div>
+                                }
+                                </div>
                         </td>
                     }
                 </tr>

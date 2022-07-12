@@ -80,6 +80,10 @@ a, .btn-link {
     background-color: red !important;
 }
 
-.yellow {
-    background-color: yellow !important;
+.black {
+    background-color: black !important;
+}
+
+.blue {
+    background-color: blue !important;
 }
