@@ -4,14 +4,14 @@
     <div class="col-sm text-center">
         <h4>Player1 ships</h4>
 
-        <table class="table table-bordered">
+        <table class="ship-board">
             @for (int i = 1; i <= 10; i++)
             {
                 <tr>
                     @for (int j = 1; j <= 10; j++)
                     {
-                        <td class="ship-tile @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty == false ? "red" : "yellow")">
-                            <div style="width:35px;height:35px;">@Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty</div>
+                        <td class="ship-tile @(Player1.Cells.First(x => x.X == i && x.Y == j).IsShip == false ? "red" : "yellow")">
+                            <div style="width:35px;height:35px;">@Player1.Cells.First(x => x.X == i && x.Y == j).IsShip</div>
                         </td>
                     }
                 </tr>
@@ -28,8 +28,8 @@
                 <tr>
                     @for (int j = 1; j <= 10; j++)
                     {
-                        <td class="ship-tile @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty == false ? "yellow" : "red")">
-                            <div style="width:35px;height:35px;">@Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty</div>
+                        <td class="ship-tile @(Player2.Cells.First(x => x.X == i && x.Y == j).IsShip == false ? "yellow" : "red")">
+                            <div style="width:35px;height:35px;">@Player2.Cells.First(x => x.X == i && x.Y == j).IsShip</div>
                         </td>
                     }
                 </tr>
@@ -54,6 +54,9 @@
 
         await GameMechanics.DataGenerator.GenerateBoard(Player1);
         await GameMechanics.DataGenerator.GenerateBoard(Player2);
+
+        await GameMechanics.DataGenerator.GenerateShips(Player1);
+        await GameMechanics.DataGenerator.GenerateShips(Player2);
     }
 
 }
