@@ -62,3 +62,24 @@ a, .btn-link {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+.ship-board {
+    margin: 0 auto !important;
+    border: 1px #fff solid;
+}
+
+.ship-tile {
+    width: 35px !important;
+    height: 35px !important;
+    vertical-align: middle !important;
+    border: 1px #fff solid !important;
+    text-align: center !important;
+}
+
+.red {
+    background-color: red !important;
+}
+
+.yellow {
+    background-color: yellow !important;
+}
