@@ -75,5 +75,19 @@ namespace BattleshipsSimulation.GameMechanics
             return true;
 
         }
+
+        public static async Task SelectCell(Models.Cell selectedcell, Player player)
+        {
+            if (selectedcell.IsShip)
+            {
+                player.Cells.Find(x => x.Id == selectedcell.Id).IsHit = true;
+                player.Lives -= 1;
+            }
+
+            if (!selectedcell.IsShip)
+                player.Cells.Find(x => x.Id == selectedcell.Id).IsEmpty = true;
+
+            return;
+        }
     }
 }

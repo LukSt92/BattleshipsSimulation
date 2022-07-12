@@ -10,7 +10,7 @@
                 <tr>
                     @for (int j = 1; j <= 10; j++)
                     {
-                        <td class="ship-tile @(Player1.Cells.First(x => x.X == i && x.Y == j).IsShip == false ? "red" : "yellow")">
+                        <td class="ship-tile @(Player1.Cells.First(x => x.X == i && x.Y == j).IsHit == false ? "red" : "yellow")">
                             <div style="width:35px;height:35px;">@Player1.Cells.First(x => x.X == i && x.Y == j).IsShip</div>
                         </td>
                     }
@@ -37,6 +37,9 @@
         </table>
 
     </div>
+    <div class="row">
+        <button class="btn btn-lg btn-primary" @onclick="@StartSimulation">Start</button>
+    </div>
 </div>>
 
 
@@ -49,14 +52,54 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Player1 = new Player();
-        Player2 = new Player();
+        Player1 = new Player()
+        {
+            Lives = 17,
+            IsMyTurn = true
+        };
+        Player2 = new Player()
+        {
+            Lives = 17,
+            IsMyTurn = false
+        };
 
         await GameMechanics.DataGenerator.GenerateBoard(Player1);
         await GameMechanics.DataGenerator.GenerateBoard(Player2);
 
         await GameMechanics.DataGenerator.GenerateShips(Player1);
         await GameMechanics.DataGenerator.GenerateShips(Player2);
+    }
+
+    async Task StartSimulation()
+    {
+        while (Player1.Lives > 0 || Player2.Lives > 0 )
+        {
+            if (Player1.IsMyTurn == true)
+            {
+                await Shot(Player2);
+                Player2.IsMyTurn = true;
+                Player1.IsMyTurn = false;
+            }
+            if (Player2.IsMyTurn == true)
+            {
+                await Shot(Player1);
+                Player1.IsMyTurn = true;
+                Player2.IsMyTurn = false;
+            }
+        }
+
+    }
+
+    async Task Shot(Player player)
+    {
+        var rnd = new Random();
+
+        var availablecells = player.Cells.Where(x => !x.IsHit && !x.IsEmpty).ToList();
+
+        int indexcount = availablecells.Count();
+
+        await GameMechanics.DataGenerator.SelectCell(availablecells.ElementAt(rnd.Next(0, indexcount)), player);
+
     }
 
 }
