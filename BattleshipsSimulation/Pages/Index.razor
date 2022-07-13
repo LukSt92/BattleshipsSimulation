@@ -2,7 +2,7 @@
 @using BattleshipsSimulation.Models
 <div class="row">
     <div class="col-sm text-center">
-        <h4>Player1 ships</h4>
+        <h4>Player1 Board</h4>
 
         <table class="ship-board">
             @for (int i = 1; i <= 10; i++)
@@ -30,7 +30,7 @@
 
     </div>
     <div class="col-sm text-center">
-        <h4>Player2 ships</h4>
+        <h4>Player2 Board</h4>
 
         <table class="ship-board">
             @for (int i = 1; i <= 10; i++)
@@ -110,6 +110,11 @@
                 Player1.IsMyTurn = false;
                 await Wait();
                 StateHasChanged();
+
+                if (Player2.Lives == 0)
+                {
+                        break;
+                }
             }
 
 
@@ -121,6 +126,11 @@
                 Player2.IsMyTurn = false;
                 await Wait();
                 StateHasChanged();
+
+                if (Player1.Lives == 0)
+                {
+                        break;
+                }
             }
 
 
