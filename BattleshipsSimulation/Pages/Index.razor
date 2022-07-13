@@ -10,24 +10,34 @@
                 <tr>
                     @for (int j = 1; j <= 10; j++)
                     {
-                        <td class="ship-tile @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true ? "blue" : "black")">
-                            <div style="width:35px;height:35px;">
-                                @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsHit)
-                                {
-                                    <div class="hit">HIT</div>
-                                }
-                                @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsMiss)
-                                {
-                                    <div class="miss">MISS</div>
-                                }
-
-                                </div>
-                        </td>
+                        @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true)
+                        {
+                            <td class="ship-tile blue @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                <div style="width:35px;height:35px;"></div>
+                            </td>
+                        }
+                        @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsHit == true)
+                        {
+                            <td class="ship-tile hit @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                <div style="width:35px;height:35px;">HIT</div>
+                            </td>
+                        }
+                        @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsMiss == true)
+                        {
+                            <td class="ship-tile miss @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                <div style="width:35px;height:35px;">MISS</div>
+                            </td>
+                        }
                     }
                 </tr>
             }
         </table>
+        <br />
+        <p>Lives left: @Player1.Lives</p>
 
+    </div>
+    <div class="col-sm text-center mt-xxl-5">
+         <button class="btn btn-lg btn-primary" disabled=@IsStarted @onclick="@StartSimulation">Start</button>
     </div>
     <div class="col-sm text-center">
         <h4>Player2 Board</h4>
@@ -38,28 +48,32 @@
                 <tr>
                     @for (int j = 1; j <= 10; j++)
                     {
-                        <td class="ship-tile @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true ? "blue" : "black")">
-                            <div style="width:35px;height:35px;">
-                                @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsHit)
-                                {
-                                    <div class="hit">HIT</div>
-                                }
-                                @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsMiss)
-                                {
-                                    <div class="miss">MISS</div>
-                                }
-                                </div>
-                        </td>
+                        @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true)
+                        {
+                            <td class="ship-tile blue @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                <div style="width:35px;height:35px;"></div>
+                            </td>
+                        }
+                        @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsHit == true)
+                        {
+                            <td class="ship-tile hit @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                <div style="width:35px;height:35px;">HIT</div>
+                            </td>
+                        }
+                        @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsMiss == true)
+                        {
+                            <td class="ship-tile miss @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                <div style="width:35px;height:35px;">MISS</div>
+                            </td>
+                        }
                     }
                 </tr>
             }
         </table>
-
+        <br />
+        <p>Lives left: @Player2.Lives</p>
     </div>
-    <div class="row">
-        <button class="btn btn-lg btn-primary" @onclick="@StartSimulation">Start</button>
-    </div>
-    <div class="row">
+    <div class="row text-center">
         @if (Player1.Lives == 0)
         {
             <h3>Player2 Win this battle!</h3>
@@ -79,18 +93,20 @@
     Player Player1 { get; set; }
     Player Player2 { get; set; }
 
+    bool IsStarted = false;
+
     protected override async Task OnInitializedAsync()
     {
         Player1 = new Player()
-        {
-            Lives = 17,
-            IsMyTurn = true
-        };
+            {
+                Lives = 17,
+                IsMyTurn = true
+            };
         Player2 = new Player()
-        {
-            Lives = 17,
-            IsMyTurn = false
-        };
+            {
+                Lives = 17,
+                IsMyTurn = false
+            };
 
         await GameMechanics.DataGenerator.GenerateBoard(Player1);
         await GameMechanics.DataGenerator.GenerateBoard(Player2);
@@ -101,7 +117,9 @@
 
     async Task StartSimulation()
     {
-        while (Player1.Lives > 0 || Player2.Lives > 0 )
+        IsStarted = true;
+
+        while (Player1.Lives > 0 || Player2.Lives > 0)
         {
             if (Player1.IsMyTurn == true)
             {
@@ -113,7 +131,7 @@
 
                 if (Player2.Lives == 0)
                 {
-                        break;
+                    break;
                 }
             }
 
@@ -129,7 +147,7 @@
 
                 if (Player1.Lives == 0)
                 {
-                        break;
+                    break;
                 }
             }
 

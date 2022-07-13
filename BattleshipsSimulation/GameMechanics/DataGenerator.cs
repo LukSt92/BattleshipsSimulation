@@ -81,11 +81,15 @@ namespace BattleshipsSimulation.GameMechanics
             if (selectedcell.IsShip)
             {
                 player.Cells.Find(x => x.Id == selectedcell.Id).IsHit = true;
+                player.Cells.Find(x => x.Id == selectedcell.Id).IsEmpty = false;
                 player.Lives -= 1;
             }
 
             if (!selectedcell.IsShip)
+            {
                 player.Cells.Find(x => x.Id == selectedcell.Id).IsMiss = true;
+                player.Cells.Find(x => x.Id == selectedcell.Id).IsEmpty = false;
+            }
 
             return;
         }
