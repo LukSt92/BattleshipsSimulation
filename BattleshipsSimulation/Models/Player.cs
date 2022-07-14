@@ -10,7 +10,6 @@ namespace BattleshipsSimulation.Models
         public List<Ship> Ships { get; set; }
         public int Lives { get; set; }
         public bool IsMyTurn { get; set; }
-
         public int WinCount { get; set; }
     }
 }

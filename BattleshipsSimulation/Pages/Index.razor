@@ -193,44 +193,20 @@
         var availablecells = player.Cells.Where(x => !x.IsHit && !x.IsMiss).ToList();
         int indexcount = availablecells.Count();
 
+        var availabletargets = player.Cells.Where(x => x.IsTarget && !x.IsHit && !x.IsMiss).ToList();
+        var targetscount = availabletargets.Count();
 
-        //NOT WORKING!
-        //var destroyedTargets = player.Cells.Where(x => x.IsHit).ToList();
-        //var possibleTargets = destroyedTargets;
-
-        //foreach (var cell in destroyedTargets)
-        //{
-        //    if (cell.X > 1)
-        //    {
-        //        possibleTargets.Where(x => x.X == cell.X-- && x.Y == cell.Y && cell.IsEmpty == true).ToList();
-        //    }
-        //    if (cell.X < 10)
-        //    {
-        //        possibleTargets.Where(x => x.X == cell.X++ && x.Y == cell.Y && cell.IsEmpty == true).ToList();
-        //    }
-        //    if (cell.Y > 1)
-        //    {
-        //        possibleTargets.Where(x => x.Y == cell.Y-- && x.X == cell.X && cell.IsEmpty == true).ToList();
-        //    }
-        //    if (cell.Y < 10)
-        //    {
-        //        possibleTargets.Where(x => x.Y == cell.Y++ && x.X == cell.X && cell.IsEmpty == true).ToList();
-        //    }
-        //}
-
-        //int targetCount = possibleTargets.Distinct().Where(x => x.IsEmpty == true).Count();
-
-
-        //if (possibleTargets.Any())
-        //    await GameMechanics.DataGenerator.SelectCell(destroyedTargets.ElementAt(rnd.Next(targetCount)), player);
-
-        //else
-        await GameMechanics.DataGenerator.SelectCell(availablecells.ElementAt(rnd.Next(0, indexcount)), player);
+        if (availabletargets.Any())
+        {
+            await GameMechanics.DataGenerator.SelectCell(availabletargets.ElementAt(rnd.Next(0, targetscount)), player);
+        }
+        else
+            await GameMechanics.DataGenerator.SelectCell(availablecells.ElementAt(rnd.Next(0, indexcount)), player);
 
     }
 
     async Task Wait()
     {
-        await Task.Delay(1);
+        await Task.Delay(10);
     }
 }

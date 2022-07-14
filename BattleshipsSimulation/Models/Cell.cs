@@ -9,5 +9,6 @@
         public bool IsHit { get; set; }
         public bool IsEmpty { get; set; }
         public bool IsMiss { get; set; }
+        public bool IsTarget { get; set; }
     }
 }

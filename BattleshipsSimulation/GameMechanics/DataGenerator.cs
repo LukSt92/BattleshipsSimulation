@@ -83,6 +83,35 @@ namespace BattleshipsSimulation.GameMechanics
                 player.Cells.Find(x => x.Id == selectedcell.Id).IsHit = true;
                 player.Cells.Find(x => x.Id == selectedcell.Id).IsEmpty = false;
                 player.Lives -= 1;
+
+                int x = player.Cells.Find(x => x.Id == selectedcell.Id).X;
+                int y = player.Cells.Find(x => x.Id == selectedcell.Id).Y;
+
+                int addx = x += 1;
+                int minx = x -= 1;
+                int minusx = minx -= 1;
+                int addy = y += 1;
+                int miny = y -= 1;
+                int minusy = miny -= 1;
+
+                if (x > 1)
+                {
+                    player.Cells.Find(x => x.X == minusx && x.Y == y).IsTarget = true;
+
+                }
+                if (x < 10)
+                {
+                    player.Cells.Find(x => x.X == addx && x.Y == y).IsTarget = true;
+                }
+                if (y > 1)
+                {
+                    player.Cells.Find(i => i.X == x && i.Y == minusy).IsTarget = true;
+                }
+                if (y < 10)
+                {
+                    player.Cells.Find(i => i.X == x && i.Y == addy).IsTarget = true;
+                }
+
             }
 
             if (!selectedcell.IsShip)
