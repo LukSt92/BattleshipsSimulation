@@ -1,8 +1,12 @@
 ﻿@page "/"
 @using BattleshipsSimulation.Models
-<div class="row">
+<div class="row text-center">
+    <h1> Battleship Simulation </h1>
+</div>
+<div class="row mt-4">
     <div class="col-sm text-center">
         <h4>Player1 Board</h4>
+        <h5>Wins: @Player1.WinCount</h5>
 
         <table class="ship-board">
             @for (int i = 1; i <= 10; i++)
@@ -37,10 +41,16 @@
 
     </div>
     <div class="col-sm text-center mt-xxl-5">
-         <button class="btn btn-lg btn-primary" disabled=@IsStarted @onclick="@StartSimulation">Start</button>
+        <button class="btn btn-lg btn-primary" disabled=@IsStarted @onclick="@StartSimulation">Start</button>
+        <br />
+        @if (IsEnded)
+        {
+            <button class="btn btn-lg btn-info" @onclick="@StartAnotherSimulation">Next one?</button>
+        }
     </div>
     <div class="col-sm text-center">
         <h4>Player2 Board</h4>
+        <h5>Wins: @Player2.WinCount</h5>
 
         <table class="ship-board">
             @for (int i = 1; i <= 10; i++)
@@ -94,6 +104,7 @@
     Player Player2 { get; set; }
 
     bool IsStarted = false;
+    bool IsEnded = false;
 
     protected override async Task OnInitializedAsync()
     {
@@ -115,9 +126,24 @@
         await GameMechanics.DataGenerator.GenerateShips(Player2);
     }
 
+    async Task StartAnotherSimulation()
+    {
+        Player1.Lives = 17;
+        Player2.Lives = 17;
+
+        await GameMechanics.DataGenerator.GenerateBoard(Player1);
+        await GameMechanics.DataGenerator.GenerateBoard(Player2);
+
+        await GameMechanics.DataGenerator.GenerateShips(Player1);
+        await GameMechanics.DataGenerator.GenerateShips(Player2);
+
+        await StartSimulation();
+    }
+
     async Task StartSimulation()
     {
         IsStarted = true;
+        IsEnded = false;
 
         while (Player1.Lives > 0 || Player2.Lives > 0)
         {
@@ -131,6 +157,8 @@
 
                 if (Player2.Lives == 0)
                 {
+                    Player1.WinCount++;
+                    IsEnded = true;
                     break;
                 }
             }
@@ -147,6 +175,8 @@
 
                 if (Player1.Lives == 0)
                 {
+                    Player2.WinCount++;
+                    IsEnded = true;
                     break;
                 }
             }
@@ -161,15 +191,46 @@
         var rnd = new Random();
 
         var availablecells = player.Cells.Where(x => !x.IsHit && !x.IsMiss).ToList();
-
         int indexcount = availablecells.Count();
 
+
+        //NOT WORKING!
+        //var destroyedTargets = player.Cells.Where(x => x.IsHit).ToList();
+        //var possibleTargets = destroyedTargets;
+
+        //foreach (var cell in destroyedTargets)
+        //{
+        //    if (cell.X > 1)
+        //    {
+        //        possibleTargets.Where(x => x.X == cell.X-- && x.Y == cell.Y && cell.IsEmpty == true).ToList();
+        //    }
+        //    if (cell.X < 10)
+        //    {
+        //        possibleTargets.Where(x => x.X == cell.X++ && x.Y == cell.Y && cell.IsEmpty == true).ToList();
+        //    }
+        //    if (cell.Y > 1)
+        //    {
+        //        possibleTargets.Where(x => x.Y == cell.Y-- && x.X == cell.X && cell.IsEmpty == true).ToList();
+        //    }
+        //    if (cell.Y < 10)
+        //    {
+        //        possibleTargets.Where(x => x.Y == cell.Y++ && x.X == cell.X && cell.IsEmpty == true).ToList();
+        //    }
+        //}
+
+        //int targetCount = possibleTargets.Distinct().Where(x => x.IsEmpty == true).Count();
+
+
+        //if (possibleTargets.Any())
+        //    await GameMechanics.DataGenerator.SelectCell(destroyedTargets.ElementAt(rnd.Next(targetCount)), player);
+
+        //else
         await GameMechanics.DataGenerator.SelectCell(availablecells.ElementAt(rnd.Next(0, indexcount)), player);
 
     }
 
     async Task Wait()
     {
-        await Task.Delay(1000);
+        await Task.Delay(1);
     }
 }
