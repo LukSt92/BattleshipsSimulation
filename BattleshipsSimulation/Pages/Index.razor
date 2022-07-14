@@ -1,103 +1,107 @@
 ﻿@page "/"
 @using BattleshipsSimulation.Models
-<div class="row text-center">
-    <h1> Battleship Simulation </h1>
-</div>
-<div class="row mt-4">
-    <div class="col-sm text-center">
-        <h4>Player1 Board</h4>
-        <h5>Wins: @Player1.WinCount</h5>
 
-        <table class="ship-board">
-            @for (int i = 1; i <= 10; i++)
-            {
-                <tr>
-                    @for (int j = 1; j <= 10; j++)
-                    {
-                        @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true)
-                        {
-                            <td class="ship-tile blue @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
-                                <div style="width:35px;height:35px;"></div>
-                            </td>
-                        }
-                        @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsHit == true)
-                        {
-                            <td class="ship-tile hit @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
-                                <div style="width:35px;height:35px;">HIT</div>
-                            </td>
-                        }
-                        @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsMiss == true)
-                        {
-                            <td class="ship-tile miss @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
-                                <div style="width:35px;height:35px;">MISS</div>
-                            </td>
-                        }
-                    }
-                </tr>
-            }
-        </table>
-        <br />
-        <p>Lives left: @Player1.Lives</p>
-
-    </div>
-    <div class="col-sm text-center mt-xxl-5">
-        <button class="btn btn-lg btn-primary" disabled=@IsStarted @onclick="@StartSimulation">Start</button>
-        <br />
-        @if (IsEnded)
-        {
-            <button class="btn btn-lg btn-info" @onclick="@StartAnotherSimulation">Next one?</button>
-        }
-    </div>
-    <div class="col-sm text-center">
-        <h4>Player2 Board</h4>
-        <h5>Wins: @Player2.WinCount</h5>
-
-        <table class="ship-board">
-            @for (int i = 1; i <= 10; i++)
-            {
-                <tr>
-                    @for (int j = 1; j <= 10; j++)
-                    {
-                        @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true)
-                        {
-                            <td class="ship-tile blue @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
-                                <div style="width:35px;height:35px;"></div>
-                            </td>
-                        }
-                        @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsHit == true)
-                        {
-                            <td class="ship-tile hit @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
-                                <div style="width:35px;height:35px;">HIT</div>
-                            </td>
-                        }
-                        @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsMiss == true)
-                        {
-                            <td class="ship-tile miss @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
-                                <div style="width:35px;height:35px;">MISS</div>
-                            </td>
-                        }
-                    }
-                </tr>
-            }
-        </table>
-        <br />
-        <p>Lives left: @Player2.Lives</p>
-    </div>
+<div class="container-xl">
     <div class="row text-center">
-        @if (Player1.Lives == 0)
-        {
-            <h3>Player2 Win this battle!</h3>
-        }
-        @if (Player2.Lives == 0)
-        {
-            <h3>Player1 Win this battle!</h3>
-        }
+        <h1> Battleship Simulation </h1>
     </div>
+    <div class="row mt-4">
+        <div class="col-sm text-center">
+            <h4>Player1 Board</h4>
+            <h5>Wins: @Player1.WinCount</h5>
+
+            <table class="ship-board">
+                @for (int i = 1; i <= 10; i++)
+                {
+                    <tr>
+                        @for (int j = 1; j <= 10; j++)
+                        {
+                            @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true)
+                            {
+                                <td class="ship-tile blue @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                    <div style="width:35px;height:35px;"></div>
+                                </td>
+                            }
+                            @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsHit == true)
+                            {
+                                <td class="ship-tile hit @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                    <div style="width:35px;height:35px;">HIT</div>
+                                </td>
+                            }
+                            @if (Player1.Cells.First(x => x.X == i && x.Y == j).IsMiss == true)
+                            {
+                                <td class="ship-tile miss @(Player1.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                    <div style="width:35px;height:35px;">MISS</div>
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </table>
+            <br />
+            <p>Lives left: @Player1.Lives</p>
+
+        </div>
+        <div class="col-sm text-center mt-xxl-5">
+            <button class="btn btn-lg btn-primary" disabled=@IsStarted @onclick="@StartSimulation">Start</button>
+            <br />
+            @if (IsEnded)
+            {
+                <button class="btn btn-lg btn-info" @onclick="@StartAnotherSimulation">Next one?</button>
+            }
+        </div>
+        <div class="col-sm text-center">
+            <h4>Player2 Board</h4>
+            <h5>Wins: @Player2.WinCount</h5>
+
+            <table class="ship-board">
+                @for (int i = 1; i <= 10; i++)
+                {
+                    <tr>
+                        @for (int j = 1; j <= 10; j++)
+                        {
+                            @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty == true)
+                            {
+                                <td class="ship-tile blue @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                    <div style="width:35px;height:35px;"></div>
+                                </td>
+                            }
+                            @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsHit == true)
+                            {
+                                <td class="ship-tile hit @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                    <div style="width:35px;height:35px;">HIT</div>
+                                </td>
+                            }
+                            @if (Player2.Cells.First(x => x.X == i && x.Y == j).IsMiss == true)
+                            {
+                                <td class="ship-tile miss @(Player2.Cells.First(x => x.X == i && x.Y == j).IsEmpty)">
+                                    <div style="width:35px;height:35px;">MISS</div>
+                                </td>
+                            }
+                        }
+                    </tr>
+                }
+            </table>
+            <br />
+            <p>Lives left: @Player2.Lives</p>
+        </div>
+        <div class="row text-center">
+            @if (Player1.Lives == 0)
+            {
+                <h3>Player2 Win this battle!</h3>
+            }
+            @if (Player2.Lives == 0)
+            {
+                <h3>Player1 Win this battle!</h3>
+            }
+        </div>
+    </div>
+    <footer class="text-center">
+        <br />
+        <br />
+        <p>My GitHub : <a href="https://github.com/LukSt92">https://github.com/LukSt92</a></p>
+    </footer>
 </div>
-
-
-
-
 
 @code {
     Player Player1 { get; set; }
