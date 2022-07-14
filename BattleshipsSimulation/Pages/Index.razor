@@ -140,6 +140,9 @@
         await StartSimulation();
     }
 
+
+    // Simulation works until one of players loses all Cells with ships (Player.Lives).
+    // starting player is always player one. I added Wait task using Delay for smoother simulation.
     async Task StartSimulation()
     {
         IsStarted = true;
@@ -186,22 +189,27 @@
 
     }
 
+
+    // There are two types of shots, Random one which is used when there are no hit cells on the board.
+    // this shot first takes every single cell that is not discovered to the List (IsHit means that this is cell with hit ship and IsMiss means that this cell is empty and already discovered)
+    // Then it draws from this List random cell and checks it using SelectCell task, explained in GameMechanics.DataGenerator
+    // The second type of shot is targeted shot but this one draws a single cell from different List which contains cells that surrounds hit cells and are not discovered.
     async Task Shot(Player player)
     {
         var rnd = new Random();
 
-        var availablecells = player.Cells.Where(x => !x.IsHit && !x.IsMiss).ToList();
-        int indexcount = availablecells.Count();
+        var availableCells = player.Cells.Where(x => !x.IsHit && !x.IsMiss).ToList();
+        int avCellsCount = availableCells.Count();
 
-        var availabletargets = player.Cells.Where(x => x.IsTarget && !x.IsHit && !x.IsMiss).ToList();
-        var targetscount = availabletargets.Count();
+        var availableTargets = player.Cells.Where(x => x.IsTarget && !x.IsHit && !x.IsMiss).ToList();
+        var targetsCount = availableTargets.Count();
 
-        if (availabletargets.Any())
+        if (availableTargets.Any())
         {
-            await GameMechanics.DataGenerator.SelectCell(availabletargets.ElementAt(rnd.Next(0, targetscount)), player);
+            await GameMechanics.DataGenerator.SelectCell(availableTargets.ElementAt(rnd.Next(0, targetsCount)), player);
         }
         else
-            await GameMechanics.DataGenerator.SelectCell(availablecells.ElementAt(rnd.Next(0, indexcount)), player);
+            await GameMechanics.DataGenerator.SelectCell(availableCells.ElementAt(rnd.Next(0, avCellsCount)), player);
 
     }
 
